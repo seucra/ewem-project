@@ -64,10 +64,10 @@ const _time = {
 				})
 				$('.fail-box').html(
 					`
-				<h2>游戏结束</h2>
-				<p>您本次得分为：${config.point}</p>
+				<h2>Game Over</h2>
+				<p>Your score: ${config.point}</p>
 				<div>${imgtext}</div>
-				<button type="button" onclick="location.reload()">返回</button>
+				<button type="button" onclick="location.reload()">Back</button>
 				`
 				)
 				$('.fail-box').css({
@@ -210,7 +210,7 @@ function CreateLJ(type, img) {
 				this.stopMove()
 				this.p1.remove() //扣分
 				config.totao_wrong += 1
-				$('.wrong').html('失败次数：' + config.totao_wrong)
+				$('.wrong').html('Misses: ' + config.totao_wrong)
 				if (config.totao_wrong == 5) {
 					stopGame()
 					let imgList = setXX(config.point, config.total_point)
@@ -221,10 +221,10 @@ function CreateLJ(type, img) {
 					})
 					$('.fail-box').html(
 						`
-					<h2>游戏失败</h2>
-					<p>您本次得分为：${config.point}</p>
+					<h2>Game Over</h2>
+					<p>Your score: ${config.point}</p>
 					<div>${imgtext}</div>
-					<button type="button" onclick="location.reload()">返回</button>
+					<button type="button" onclick="location.reload()">Back</button>
 					`
 					)
 					$('.fail-box').css({
@@ -380,7 +380,7 @@ function CreateLJ(type, img) {
 						})
 					}, 200)
 					config.point += 1
-					$('.point').html('得分：' + config.point)
+					$('.point').html('Score: ' + config.point)
 					this.remove()
 					that.stopMove()
 					break;
