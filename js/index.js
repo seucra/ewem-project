@@ -230,7 +230,7 @@ function CreateLJ(type, img) {
 					$('.fail-box').css({
 						display: 'flex'
 					})
-					// alert('失败，游戏结束')
+					// alert('Failed, game over')
 				}
 			}
 			$(this.p1).css({
@@ -256,149 +256,155 @@ function CreateLJ(type, img) {
 			position: 'absolute',
 			left: this.mX,
 			top: this.mY,
-			zIndex: 1000
+			zIndex: 1000,
+			cursor: 'grab',
+			userSelect: 'none'
 		})
-		// 拖动时停止定时器，未拖动时重新开始定时器
 		this.lineMove()
 		$('.lj-box').append(this.p1)
-		this.p1.addEventListener('mousemove', this.drag, false)
-		this.p1.addEventListener('mouseleave', this.dragEnd, false)
-		// 用于鼠标移动过快，垃圾位置未跟上的中途脱落情况
-		this.p1.addEventListener('mouseup', this.dragEnd, false)
-		this.p1.addEventListener('mousedown', this.dragStart, false)
+		this.p1.addEventListener('mousedown', this.dragStart, { passive: false })
+		this.p1.addEventListener('touchstart', this.dragStart, { passive: false })
 	}
 	this.drag = function(e) {
-		console.log(that.flag)
 		if (that.flag == 1) {
+			if (e && e.cancelable) e.preventDefault()
+			let clientX, clientY
+			if (e.touches && e.touches.length > 0) {
+				clientX = e.touches[0].clientX
+				clientY = e.touches[0].clientY
+			} else if (e.changedTouches && e.changedTouches.length > 0) {
+				clientX = e.changedTouches[0].clientX
+				clientY = e.changedTouches[0].clientY
+			} else {
+				clientX = e.clientX
+				clientY = e.clientY
+			}
 
-			let x1 = document.getElementsByClassName('container')[0].offsetLeft + this.parentNode.offsetLeft
-			let y1 = document.getElementsByClassName('container')[0].offsetTop + this.parentNode.offsetTop
-			// console.log(this.parentNode.offsetLeft)
-			let moveX = e.clientX - this.offsetLeft - x1 - config.lj_width / 2
-			let moveY = e.clientY - this.offsetTop - y1 - config.lj_height / 2
-			that.mX = that.mX + moveX
-			that.mY = that.mY + moveY
-			// console.log(that.mY,that.mX)
-			$(this).css({
+			let containerElem = document.getElementsByClassName('container')[0]
+			let containerRect = containerElem.getBoundingClientRect()
+			let ljBoxElem = document.getElementsByClassName('lj-box')[0]
+			let scale = containerRect.width / config.box_width
 
+			let internalX = (clientX - containerRect.left) / scale
+			let internalY = (clientY - containerRect.top) / scale
+
+			that.mX = internalX - ljBoxElem.offsetLeft - config.lj_width / 2
+			that.mY = internalY - ljBoxElem.offsetTop - config.lj_height / 2
+
+			$(that.p1).css({
 				left: that.mX,
 				top: that.mY
 			})
 		}
-
 	}
-	this.dragStart = function() { //开始拖时
+	this.dragStart = function(e) {
+		if (e && e.cancelable) e.preventDefault()
 		that.flag = 1
 		that.dragX = that.mX
 		that.dragY = that.mY
-		console.log(that.flag)
 		that.stopMove()
-		$(this).css({
-			zIndex: 100000
+		$(that.p1).css({
+			zIndex: 100000,
+			cursor: 'grabbing'
 		})
+		document.addEventListener('mousemove', that.drag, { passive: false })
+		document.addEventListener('mouseup', that.dragEnd, { passive: false })
+		document.addEventListener('touchmove', that.drag, { passive: false })
+		document.addEventListener('touchend', that.dragEnd, { passive: false })
+		document.addEventListener('touchcancel', that.dragEnd, { passive: false })
 	}
-	// 鼠标停止拖动时，1.判断当前位置是否与（同类型）垃圾桶重合，否-》回到原位（或向后移）
-	// 是=》消除该垃圾
 	this.dragEnd = function() {
-		if (that.flag == 0) { //鼠标移过
+		if (that.flag == 0) {
 			return
 		}
-		$(this).css({
-			zIndex: 0
+		document.removeEventListener('mousemove', that.drag, false)
+		document.removeEventListener('mouseup', that.dragEnd, false)
+		document.removeEventListener('touchmove', that.drag, false)
+		document.removeEventListener('touchend', that.dragEnd, false)
+		document.removeEventListener('touchcancel', that.dragEnd, false)
+
+		$(that.p1).css({
+			zIndex: 1000,
+			cursor: 'grab'
 		})
-		console.log('stop')
 		that.flag = 0
-		if(config.level==1){
-			console.log(that.mY)
-			// that.mX = that.dragX
-			if(that.mY<0){
+
+		if (config.level == 1) {
+			if (that.mY < 0) {
 				that.mY = that.dragY
 			}
-			
-		}else if(config.level==2){
-			console.log(that.mY)
-			if(that.mY<0||that.mY>160){
+		} else if (config.level == 2) {
+			if (that.mY < 0 || that.mY > 160) {
 				that.mY = that.dragY
 			}
-		}else if(config.level==3){
+		} else if (config.level == 3) {
 			that.mX = that.dragX
 			that.mY = that.dragY
 		}
-		// that.mX = that.dragX
-		// that.mY = that.dragY
-		// 垃圾在轨道div内，轨道和垃圾桶同级
-		let mx = this.parentNode.offsetLeft + this.offsetLeft
-		let my = this.parentNode.offsetTop + this.offsetTop
-		// 垃圾桶宽度范围加到边边距离
-		// console.log(ljt1.a.offsetLeft+150,mx)
-		// 这里写死的第一个垃圾桶，实际上type为1和第一个垃圾桶判断
-		// 这里我们和四个垃圾桶都做一下判断，因为需要有丢错的情况
+
+		let mx = that.p1.parentNode.offsetLeft + that.p1.offsetLeft
+		let my = that.p1.parentNode.offsetTop + that.p1.offsetTop
 		let arr = [ljt1, ljt2, ljt3, ljt4]
-		// 老老实实改成for循环吧
+		let hitBin = null
+
 		for (let i = 0; i < arr.length; i++) {
 			if (Math.abs(arr[i].a.offsetLeft - mx) < 150 && Math.abs(arr[i].a.offsetTop - my) < 170) {
-				if (arr[i].type != that.type) {
-					// 丢错了,暂时回原位，
-					$(arr[i].a).css({
-						backgroundColor: 'red'
-					})
-					setTimeout(() => {
-						$(arr[i].a).css({
-							backgroundColor: ''
-						})
-					}, 200)
-					if (config.level == 2) {
-						if (that.fx > 0.5) {
-
-							that.speedX = -config.sx
-
-						} else {
-							that.speedX = config.sx
-						}
-
-						that.speedY = 0
-					}
-
-
-					that.mX = that.startX
-					that.mY = that.startY
-					$(this).css({
-
-						left: that.startX,
-						top: that.startY
-					})
-					that.lineMove()
-					break;
-				} else {
-					// 丢对了，加分
-					$(arr[i].a).css({
-						backgroundColor: 'yellow'
-					})
-					setTimeout(() => {
-						$(arr[i].a).css({
-							backgroundColor: ''
-						})
-					}, 200)
-					config.point += 1
-					$('.point').html('Score: ' + config.point)
-					this.remove()
-					that.stopMove()
-					break;
-				}
-
-			} else {
-				// 这里四个判断=》被执行了四次，想个办法改善代码
-				that.lineMove()
-				$(this).css({
-
-					left: that.mX,
-					top: that.mY
-				})
-				// console.log('fang')
+				hitBin = arr[i]
+				break
 			}
 		}
 
+		if (hitBin) {
+			if (hitBin.type != that.type) {
+				// Dropped in wrong bin: flash red, return to start position
+				$(hitBin.a).css({
+					backgroundColor: 'red'
+				})
+				setTimeout(() => {
+					$(hitBin.a).css({
+						backgroundColor: ''
+					})
+				}, 200)
 
+				if (config.level == 2) {
+					if (that.fx > 0.5) {
+						that.speedX = -config.sx
+					} else {
+						that.speedX = config.sx
+					}
+					that.speedY = 0
+				}
+
+				that.mX = that.startX
+				that.mY = that.startY
+				$(that.p1).css({
+					left: that.startX,
+					top: that.startY
+				})
+				that.lineMove()
+			} else {
+				// Dropped in correct bin: flash yellow, score point, remove item
+				$(hitBin.a).css({
+					backgroundColor: 'yellow'
+				})
+				setTimeout(() => {
+					$(hitBin.a).css({
+						backgroundColor: ''
+					})
+				}, 200)
+				config.point += 1
+				$('.point').html('Score: ' + config.point)
+				that.p1.remove()
+				that.stopMove()
+			}
+		} else {
+			// Dropped in empty area: resume conveyor movement
+			that.lineMove()
+			$(that.p1).css({
+				left: that.mX,
+				top: that.mY
+			})
+		}
 	}
 
 
@@ -434,7 +440,7 @@ function Ljt(left, top, type) {
 // lj1.create()
 //整个垃圾group=》
 const all_lj = [
-	// 厨余
+	// 厨余 - kitchen
 	[
 		'./img/cy/1.png', './img/cy/2.png', './img/cy/3.png', './img/cy/4.png',
 		'./img/cy/5.png', './img/cy/6.png', './img/cy/7.png', './img/cy/8.png',
@@ -445,7 +451,7 @@ const all_lj = [
 		'./img/cy/25.png',
 
 	],
-	// 不可回收
+	// 不可回收 - other
 	[
 		'./img/bkhs/1.png', './img/bkhs/2.png', './img/bkhs/3.png', './img/bkhs/4.png', './img/bkhs/5.png',
 		'./img/bkhs/6.png', './img/bkhs/7.png', './img/bkhs/8.png', './img/bkhs/9.png', './img/bkhs/10.png',
@@ -453,7 +459,7 @@ const all_lj = [
 		'./img/bkhs/16.png', './img/bkhs/17.png', './img/bkhs/18.png', './img/bkhs/19.png', './img/bkhs/20.png',
 		'./img/bkhs/21.png', './img/bkhs/22.png', './img/bkhs/23.png', './img/bkhs/24.png', './img/bkhs/25.png'
 	],
-	// 有害
+	// 有害 - hazardous
 	[
 		'./img/yh/1.png', './img/yh/2.png', './img/yh/3.png', './img/yh/4.png', './img/yh/5.png',
 		'./img/yh/6.png', './img/yh/7.png', './img/yh/8.png', './img/yh/9.png', './img/yh/10.png',
@@ -461,7 +467,7 @@ const all_lj = [
 		'./img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png',
 		'./img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png'
 	],
-	// 可回收
+	// 可回收 - recyclable
 	[
 		'./img/khs/1.png', './img/khs/2.png', './img/khs/3.png', './img/khs/4.png', './img/khs/5.png',
 		'./img/khs/6.png', './img/khs/7.png', './img/khs/8.png', './img/khs/9.png', './img/khs/10.png',
