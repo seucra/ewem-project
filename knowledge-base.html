@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Garbage Sorting Knowledge Base</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body>
+		<!-- Knowledge Base -->
+		<div class="container zsk">
+			<div class="left">
+				<div onclick="showLJ(1)">Recyclable</div>
+				<div onclick="showLJ(0)">Kitchen Waste</div>
+				<div onclick="showLJ(2)">Hazardous Waste</div>
+				<div onclick="showLJ(3)">Other Waste</div>
+			</div>
+			<div class="right">
+				<div class="title">Waste Guide</div>
+				<div class="cont"></div>
+				<a href="index.html" class="back">Back</a>
+			</div>
+		</div>
+
+		<script>
+			var lj = [{
+					name: 'Kitchen Waste',
+					desc: 'Kitchen waste is a type of organic waste, consisting of cooked food waste and raw food scraps. Cooked waste includes leftover meals, rice, and cooked vegetable leaves; raw waste includes fruit peels, eggshells, tea residue, animal bones, and seafood shells, generally referring to raw food ingredients and dietary residues generated in daily household life.',
+					img:['./img/kitchen/26.png','./img/kitchen/27.png','./img/kitchen/28.png','./img/kitchen/29.png','./img/kitchen/30.png']
+				},
+				{
+					name: 'Recyclable Waste',
+					desc: 'Recyclable waste refers to domestic waste suitable for recycling and resource recovery. Major categories include: waste paper, plastics, scrap metals, discarded packaging materials, textiles, waste electrical and electronic equipment, glass containers, and composite packaging materials.',
+					img:['./img/recyclable/13.png','./img/recyclable/14.png','./img/recyclable/15.png','./img/recyclable/16.png','./img/recyclable/17.png']
+				},
+				{
+					name: 'Hazardous Waste',
+					desc: 'Hazardous waste refers to household waste that poses direct or potential harm to human health or the ecological environment. Common hazardous waste items include fluorescent tubes, waste paint, pesticides, discarded cosmetics, expired medicines, spent batteries, bulbs, and mercury thermometers. Hazardous waste requires specialized safe handling and disposal.',
+					img:['./img/hazardous/13.png','./img/hazardous/14.png','./img/hazardous/11.png','./img/hazardous/6.png','./img/hazardous/7.png']
+				},
+				{
+					name: 'Other Waste',
+					desc: 'Other waste (residual waste) refers to waste with minimal hazard and no practical recycling value, such as construction debris, dust, and non-recyclable sanitary items. These are generally disposed of through sanitary landfill, incineration, or specialized decomposition methods. Other waste represents the remaining waste stream after recyclables, kitchen waste, and hazardous waste have been separated.',
+					img:['./img/other/3.png','./img/other/4.png','./img/other/5.png','./img/other/6.png','./img/other/7.png']
+				}
+			]
+
+			function showLJ(n){
+				let imgs=lj[n].img.map(item=>{
+					return '<img src="'+item+'" />'
+				}).join('')
+				document.getElementsByClassName('title')[0].innerHTML = lj[n].name + ' Guide'
+				document.getElementsByClassName('cont')[0].innerHTML = lj[n].desc+'<div class="case">'+imgs+'</div>'
+			}
+			showLJ(1)
+		</script>
+		<script src="js/scale.js"></script>
+	</body>
+</html>

@@ -14,7 +14,7 @@ const config = {
 }
 
 function setXX(point, total) { //评星级
-	let xx = ['img/xx1.png', 'img/xx2.png']
+	let xx = ['img/star-empty.png', 'img/star-full.png']
 	if (point < total / 3) {
 		return [xx[0], xx[0], xx[0]]
 	} else if (point >= total / 3 && point < total / 2) {
@@ -97,7 +97,7 @@ const lj_box = {
 	height: 300,
 	left: 0,
 	bottom: 0,
-	dbimg: 'url(img/db.jpg)',
+	dbimg: 'url(img/track1.jpg)',
 	setPos: function() {
 		$('.lj-box').css({
 			width: this.width,
@@ -442,38 +442,38 @@ function Ljt(left, top, type) {
 const all_lj = [
 	// 厨余 - kitchen
 	[
-		'./img/cy/1.png', './img/cy/2.png', './img/cy/3.png', './img/cy/4.png',
-		'./img/cy/5.png', './img/cy/6.png', './img/cy/7.png', './img/cy/8.png',
-		'./img/cy/9.png', './img/cy/10.png', './img/cy/11.png', './img/cy/12.png',
-		'./img/cy/13.png', './img/cy/14.png', './img/cy/15.png', './img/cy/16.png',
-		'./img/cy/17.png', './img/cy/18.png', './img/cy/19.png', './img/cy/20.png',
-		'./img/cy/21.png', './img/cy/22.png', './img/cy/23.png', './img/cy/24.png',
-		'./img/cy/25.png',
+		'./img/kitchen/1.png', './img/kitchen/2.png', './img/kitchen/3.png', './img/kitchen/4.png',
+		'./img/kitchen/5.png', './img/kitchen/6.png', './img/kitchen/7.png', './img/kitchen/8.png',
+		'./img/kitchen/9.png', './img/kitchen/10.png', './img/kitchen/11.png', './img/kitchen/12.png',
+		'./img/kitchen/13.png', './img/kitchen/14.png', './img/kitchen/15.png', './img/kitchen/16.png',
+		'./img/kitchen/17.png', './img/kitchen/18.png', './img/kitchen/19.png', './img/kitchen/20.png',
+		'./img/kitchen/21.png', './img/kitchen/22.png', './img/kitchen/23.png', './img/kitchen/24.png',
+		'./img/kitchen/25.png',
 
 	],
 	// 不可回收 - other
 	[
-		'./img/bkhs/1.png', './img/bkhs/2.png', './img/bkhs/3.png', './img/bkhs/4.png', './img/bkhs/5.png',
-		'./img/bkhs/6.png', './img/bkhs/7.png', './img/bkhs/8.png', './img/bkhs/9.png', './img/bkhs/10.png',
-		'./img/bkhs/11.png', './img/bkhs/12.png', './img/bkhs/13.png', './img/bkhs/14.png', './img/bkhs/15.png',
-		'./img/bkhs/16.png', './img/bkhs/17.png', './img/bkhs/18.png', './img/bkhs/19.png', './img/bkhs/20.png',
-		'./img/bkhs/21.png', './img/bkhs/22.png', './img/bkhs/23.png', './img/bkhs/24.png', './img/bkhs/25.png'
+		'./img/other/1.png', './img/other/2.png', './img/other/3.png', './img/other/4.png', './img/other/5.png',
+		'./img/other/6.png', './img/other/7.png', './img/other/8.png', './img/other/9.png', './img/other/10.png',
+		'./img/other/11.png', './img/other/12.png', './img/other/13.png', './img/other/14.png', './img/other/15.png',
+		'./img/other/16.png', './img/other/17.png', './img/other/18.png', './img/other/19.png', './img/other/20.png',
+		'./img/other/21.png', './img/other/22.png', './img/other/23.png', './img/other/24.png', './img/other/25.png'
 	],
 	// 有害 - hazardous
 	[
-		'./img/yh/1.png', './img/yh/2.png', './img/yh/3.png', './img/yh/4.png', './img/yh/5.png',
-		'./img/yh/6.png', './img/yh/7.png', './img/yh/8.png', './img/yh/9.png', './img/yh/10.png',
-		'./img/yh/11.png', './img/yh/12.png', './img/yh/13.png', './img/yh/14.png', './img/yh/3.png',
-		'./img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png',
-		'./img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png', './img/yh/3.png'
+		'./img/hazardous/1.png', './img/hazardous/2.png', './img/hazardous/3.png', './img/hazardous/4.png', './img/hazardous/5.png',
+		'./img/hazardous/6.png', './img/hazardous/7.png', './img/hazardous/8.png', './img/hazardous/9.png', './img/hazardous/10.png',
+		'./img/hazardous/11.png', './img/hazardous/12.png', './img/hazardous/13.png', './img/hazardous/14.png', './img/hazardous/3.png',
+		'./img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png',
+		'./img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png', './img/hazardous/3.png'
 	],
 	// 可回收 - recyclable
 	[
-		'./img/khs/1.png', './img/khs/2.png', './img/khs/3.png', './img/khs/4.png', './img/khs/5.png',
-		'./img/khs/6.png', './img/khs/7.png', './img/khs/8.png', './img/khs/9.png', './img/khs/10.png',
-		'./img/khs/11.png', './img/khs/12.png', './img/khs/13.png', './img/khs/14.png', './img/khs/15.png',
-		'./img/khs/16.png', './img/khs/17.png', './img/khs/18.png', './img/khs/19.png', './img/khs/20.png',
-		'./img/khs/21.png', './img/khs/22.png', './img/khs/23.png', './img/khs/24.png', './img/khs/25.png',
+		'./img/recyclable/1.png', './img/recyclable/2.png', './img/recyclable/3.png', './img/recyclable/4.png', './img/recyclable/5.png',
+		'./img/recyclable/6.png', './img/recyclable/7.png', './img/recyclable/8.png', './img/recyclable/9.png', './img/recyclable/10.png',
+		'./img/recyclable/11.png', './img/recyclable/12.png', './img/recyclable/13.png', './img/recyclable/14.png', './img/recyclable/15.png',
+		'./img/recyclable/16.png', './img/recyclable/17.png', './img/recyclable/18.png', './img/recyclable/19.png', './img/recyclable/20.png',
+		'./img/recyclable/21.png', './img/recyclable/22.png', './img/recyclable/23.png', './img/recyclable/24.png', './img/recyclable/25.png',
 	]
 ]
 let lj_obj = []
@@ -577,7 +577,7 @@ function init(level) { //初始化游戏
 		config.level = 1
 		config.total_point = 60
 		lj_box.height = 300
-		lj_box.dbimg = 'url(img/db.jpg)'
+		lj_box.dbimg = 'url(img/track1.jpg)'
 	} else if (level == 2) {
 		ljt1 = new Ljt(20, 40, 1)
 		ljt1.create()
@@ -596,7 +596,7 @@ function init(level) { //初始化游戏
 		config.level = 2
 		lj_box.height = 480
 		config.total_point = 75
-		lj_box.dbimg = 'url(img/db2.png)'
+		lj_box.dbimg = 'url(img/track2.png)'
 	} else if (level == 3) {
 		ljt1 = new Ljt(550, 20, 1)
 		ljt1.create()
@@ -615,7 +615,7 @@ function init(level) { //初始化游戏
 		config.level = 3
 		config.total_point = 100
 		lj_box.height = 750
-		lj_box.dbimg = 'url(img/db3.png)'
+		lj_box.dbimg = 'url(img/track3.png)'
 	}
 	doCreate(level)
 	lj_box.setPos()

@@ -98,7 +98,7 @@ html, body {
 /* Knowledge Base Page */
 .zsk {
 	display: flex;
-	background: url(../img/bg12.jpg);
+	background: url(../img/bg-guide.jpg);
 	background-size: cover;
 }
 
@@ -267,7 +267,7 @@ html, body {
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: url(../img/cd.jpg);
+	background: url(../img/playfield.jpg);
 	overflow: hidden;
 	display: none;
 	-webkit-user-select: none;
